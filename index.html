@@ -1,1 +1,532 @@
+<!DOCTYPE html>
+<html lang="lv" class="scroll-smooth">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Latte Happens | Coffee Shop Rīga</title>
+    <meta name="description"
+        content="Not just coffee. It’s your daily joy. Fresh brownies, croissants, and specialty coffee in the heart of Riga. Avotu iela 4." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Latte Happens - Rīga" />
+    <meta property="og:description"
+        content="Your daily dose of chocolatey comfort and specialty coffee. Dog friendly!" />
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" />
+    <meta property="og:type" content="website" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#121212',
+                            dark: '#1E1E1E',
+                            accent: '#E6E6E6',
+                            gold: '#D4AF37'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #E6E6E6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <!-- Mobile Action Bar (Sticky Bottom) -->
+    <div class="fixed bottom-0 left-0 w-full z-50 md:hidden pb-safe">
+        <div class="bg-[#121212]/95 backdrop-blur-md border-t border-gray-800 p-4 grid grid-cols-2 gap-4">
+            <a id="action-call" href="tel:+37120000000"
+                class="flex items-center justify-center gap-2 bg-white text-black py-3 rounded-full font-bold shadow-lg hover:bg-gray-200 transition">
+                <i data-lucide="phone" class="w-4 h-4"></i>
+                <span data-i18n="actions.call">Zvanīt</span>
+            </a>
+            <a id="action-map" href="https://www.google.com/maps/search/?api=1&query=Avotu+iela+4+Rīga" target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-center gap-2 bg-[#1E1E1E] border border-gray-700 text-white py-3 rounded-full font-bold shadow-lg hover:bg-gray-800 transition">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                <span data-i18n="actions.map">Karte</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation / Hero Overlay -->
+    <div class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-40 transition-all duration-300"
+        id="navbar">
+        <div
+            class="font-serif text-2xl font-bold text-white tracking-widest border-2 border-white p-2 bg-black/20 backdrop-blur-sm">
+            L / H
+        </div>
+        <div class="flex gap-2 text-sm font-semibold tracking-wider bg-black/20 backdrop-blur-sm p-1 rounded-lg"
+            id="lang-switcher">
+            <button onclick="app.setLanguage('lv')"
+                class="uppercase px-2 py-1 transition-colors duration-300 text-white border-b-2 border-white"
+                id="btn-lv">lv</button>
+            <button onclick="app.setLanguage('en')"
+                class="uppercase px-2 py-1 transition-colors duration-300 text-gray-400 hover:text-white"
+                id="btn-en">en</button>
+            <button onclick="app.setLanguage('ru')"
+                class="uppercase px-2 py-1 transition-colors duration-300 text-gray-400 hover:text-white"
+                id="btn-ru">ru</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="data/main.jpg" alt="Latte Happens Interior" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-black/70"></div>
+        </div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center pt-20">
+            <h1
+                class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight tracking-wide animate-fade-in">
+                LATTE<br />HAPPENS
+            </h1>
+            <p class="font-sans text-lg md:text-xl text-gray-300 max-w-lg mb-10 tracking-wider animate-fade-in"
+                style="animation-delay: 0.2s;" data-i18n="hero.subtitle">
+                Ne tikai kafija. Tavs ikdienas prieka mirklis.
+            </p>
+            <a href="#menu"
+                class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-black transition duration-300 ease-out border-2 border-white rounded-full shadow-md animate-fade-in"
+                style="animation-delay: 0.4s;">
+                <span
+                    class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-black group-hover:translate-x-0 ease">
+                    <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                </span>
+                <span
+                    class="absolute flex items-center justify-center w-full h-full text-black transition-all duration-300 transform bg-white group-hover:translate-x-full ease"
+                    data-i18n="hero.cta">
+                    Skatīt Ēdienkarti
+                </span>
+                <span class="relative invisible" data-i18n="hero.cta">Skatīt Ēdienkarti</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- About & Gallery -->
+    <section class="py-20 px-4 bg-[#121212]">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1 space-y-8">
+                <h2 class="font-serif text-4xl text-white" data-i18n="about.title">Atmosfēra</h2>
+                <div class="h-1 w-20 bg-white"></div>
+                <p class="text-xl text-gray-300 leading-relaxed font-light" data-i18n="about.text1">
+                    Kad dzīve dod citronus, mēs pievienojam zemenes un aicinām tevi ciemos.
+                </p>
+                <p class="text-gray-400" data-i18n="about.text2">
+                    Tava ikdienas šokolādes mierinājuma deva ir gatava. Svaigi brauniji, taisni no krāsns - tiekamies
+                    drīz?
+                </p>
+                <div class="inline-block px-4 py-2 bg-[#1E1E1E] rounded-full text-sm text-gray-300 border border-gray-700"
+                    data-i18n="about.dogs">
+                    Draudzīgi suņiem 🐶
+                </div>
+            </div>
+            <div class="order-1 md:order-2 grid grid-cols-2 gap-4">
+                <div class="relative overflow-hidden rounded-lg aspect-square">
+                    <img src="data/img1.jpg" alt="Coffee"
+                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-110" />
+                </div>
+                <div class="relative overflow-hidden rounded-lg aspect-square translate-y-8">
+                    <img src="data/img2.jpg" alt="Brownie"
+                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-110" />
+                </div>
+                <div class="relative overflow-hidden rounded-lg aspect-square -translate-y-8">
+                    <img src="data/img3.jpg" alt="Vibe"
+                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-110" />
+                </div>
+                <div class="relative overflow-hidden rounded-lg aspect-square">
+                    <img src="data/img4.jpg" alt="Beans"
+                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-110" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mood Widget -->
+    <section class="py-20 px-4 bg-[#1E1E1E] text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-[100px] pointer-events-none">
+        </div>
+        <div class="max-w-2xl mx-auto text-center relative z-10" id="mood-widget">
+            <h2 class="font-serif text-3xl mb-4" data-i18n="mood.title">Nezini ko izvēlēties?</h2>
+            <p class="text-gray-400 mb-10 font-light" data-i18n="mood.subtitle">Ļauj mums ieteikt dzērienu tavam
+                noskaņojumam</p>
+
+            <!-- Question State -->
+            <div id="mood-question" class="space-y-8">
+                <h3 class="text-xl font-medium" data-i18n="mood.question">Kā tu šodien jūties?</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="app.setMood('tired')"
+                        class="flex flex-col items-center justify-center p-6 bg-[#121212] border border-gray-800 rounded-xl hover:bg-gray-800 hover:border-gray-600 transition-all duration-300">
+                        <div class="mb-3 text-gray-300"><i data-lucide="coffee"></i></div>
+                        <span class="text-sm font-medium tracking-wide" data-i18n="mood.tired">Noguris</span>
+                    </button>
+                    <button onclick="app.setMood('relaxed')"
+                        class="flex flex-col items-center justify-center p-6 bg-[#121212] border border-gray-800 rounded-xl hover:bg-gray-800 hover:border-gray-600 transition-all duration-300">
+                        <div class="mb-3 text-gray-300"><i data-lucide="smile"></i></div>
+                        <span class="text-sm font-medium tracking-wide" data-i18n="mood.relaxed">Relaksēts</span>
+                    </button>
+                    <button onclick="app.setMood('hot')"
+                        class="flex flex-col items-center justify-center p-6 bg-[#121212] border border-gray-800 rounded-xl hover:bg-gray-800 hover:border-gray-600 transition-all duration-300">
+                        <div class="mb-3 text-gray-300"><i data-lucide="sun"></i></div>
+                        <span class="text-sm font-medium tracking-wide" data-i18n="mood.hot">Man ir karsti</span>
+                    </button>
+                    <button onclick="app.setMood('cold')"
+                        class="flex flex-col items-center justify-center p-6 bg-[#121212] border border-gray-800 rounded-xl hover:bg-gray-800 hover:border-gray-600 transition-all duration-300">
+                        <div class="mb-3 text-gray-300"><i data-lucide="wind"></i></div>
+                        <span class="text-sm font-medium tracking-wide" data-i18n="mood.cold">Man ir auksti</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result State (Hidden by default) -->
+            <div id="mood-result"
+                class="hidden animate-fade-in p-8 bg-[#121212] rounded-2xl border border-gray-800 shadow-2xl">
+                <p class="text-gray-400 text-sm uppercase tracking-widest mb-4" data-i18n="mood.result">Tavs ideālais
+                    dzēriens:</p>
+                <div class="font-serif text-4xl mb-8 text-white" id="mood-result-text"></div>
+                <button onclick="app.resetMood()"
+                    class="text-sm border-b border-gray-500 pb-1 hover:text-white hover:border-white transition-colors"
+                    data-i18n="mood.reset">
+                    Mēģināt vēlreiz
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 px-4 bg-[#121212] text-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="font-serif text-4xl text-center mb-12 tracking-widest" data-i18n="menu.title">Ēdienkarte</h2>
+
+            <!-- Categories -->
+            <div class="flex flex-wrap justify-center gap-4 mb-16" id="menu-categories">
+                <!-- Injected by JS -->
+            </div>
+
+            <!-- Items -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8" id="menu-items">
+                <!-- Injected by JS -->
+            </div>
+
+            <div id="coffee-note" class="mt-8 text-center text-xs text-gray-500 uppercase tracking-widest hidden">
+                <span data-i18n="menu.single">Single</span> / <span data-i18n="menu.double">Double</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#1E1E1E] text-white pt-16 pb-32 md:pb-16 px-4 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+            <!-- Brand -->
+            <div class="flex flex-col items-center md:items-start">
+                <div class="font-serif text-2xl font-bold mb-6 tracking-widest border-2 border-white p-4 inline-block">L
+                    / H</div>
+                <p class="text-gray-400 max-w-xs text-sm">Avotu iela 4, Rīga.<br />Latte Happens.</p>
+            </div>
+
+            <!-- Hours -->
+            <div class="flex flex-col items-center md:items-start">
+                <h3 class="font-serif text-xl mb-6 flex items-center gap-2">
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                    <span data-i18n="footer.hours_title">Darba Laiks</span>
+                </h3>
+                <ul class="space-y-3 text-sm text-gray-300 w-full max-w-[250px]">
+                    <li class="flex justify-between w-full">
+                        <span data-i18n="footer.mon_fri">Pirmdiena - Piektdiena</span>
+                        <span class="font-mono">08:30 - 17:00</span>
+                    </li>
+                    <li class="flex justify-between w-full">
+                        <span data-i18n="footer.sat">Sestdiena</span>
+                        <span class="font-mono">09:30 - 17:00</span>
+                    </li>
+                    <li class="flex justify-between w-full text-gray-500">
+                        <span data-i18n="footer.sun">Svētdiena</span>
+                        <span data-i18n="footer.closed">SLĒGTS</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="flex flex-col items-center md:items-start">
+                <h3 class="font-serif text-xl mb-6 flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    <span data-i18n="footer.address">Adrese</span>
+                </h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Avotu+iela+4+Rīga" target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-gray-300 hover:text-white transition-colors mb-6 text-sm hover:underline">
+                    Avotu iela 4, Latgales priekšpilsēta, Rīga, LV-1011
+                </a>
+                <a href="https://instagram.com/lattehappens" target="_blank" rel="noopener noreferrer"
+                    class="p-3 bg-[#121212] rounded-full hover:bg-white hover:text-black transition-all">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+        <div class="mt-16 pt-8 border-t border-gray-800 text-center text-xs text-gray-600">
+            &copy; 2024 Latte Happens. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Main Application Logic -->
+    <script>
+        // --- DATA & TRANSLATIONS ---
+        const CONSTANTS = {
+            phone: "+371 20000000",
+            address: "Avotu iela 4, Latgales priekšpilsēta, Rīga, LV-1011"
+        };
+
+        const MENU_ITEMS = [
+            { name: "Latte", price: "3.50 / 3.80", category: "coffee" },
+            { name: "Cappuccino", price: "3.20 / 3.60", category: "coffee" },
+            { name: "Flat White", price: "3.50", category: "coffee" },
+            { name: "Americano", price: "2.50", category: "coffee" },
+            { name: "Espresso", price: "2.00 / 2.50", category: "coffee" },
+            { name: "Matcha Latte", price: "4.00", category: "hot_drinks" },
+            { name: "Kakao", price: "3.00", category: "hot_drinks" },
+            { name: "Chai Latte", price: "3.50", category: "hot_drinks" },
+            { name: "Espresso Tonic", price: "4.00", category: "cold_drinks" },
+            { name: "Bumble Coffee", price: "4.00", category: "cold_drinks" },
+            { name: "Orange Lemonade", price: "3.00", category: "cold_drinks" },
+            { name: "Lime Lemonade", price: "3.00", category: "cold_drinks" },
+            { name: "Rhubarb Lemonade", price: "3.00", category: "cold_drinks" },
+            { name: "Pineapple Lemonade", price: "3.00", category: "cold_drinks" },
+            { name: "Icebata Jasmine", price: "3.00", category: "cold_drinks" },
+            { name: "Raspberry Croissant", price: "3.50", category: "food" },
+            { name: "Fresh Brownie", price: "3.50", category: "food" },
+            { name: "Classic Croissant", price: "2.50", category: "food" }
+        ];
+
+        const TRANSLATIONS = {
+            lv: {
+                hero: { title: "LATTE HAPPENS", subtitle: "Ne tikai kafija. Tavs ikdienas prieka mirklis.", cta: "Skatīt Ēdienkarti" },
+                menu: { title: "Ēdienkarte", coffee: "Kafija", hot_drinks: "Karstie Dzērieni", cold_drinks: "Limonādes", food: "Uzkodas", single: "Single", double: "Double" },
+                mood: { title: "Nezini ko izvēlēties?", subtitle: "Ļauj mums ieteikt dzērienu tavam noskaņojumam", question: "Kā tu šodien jūties?", tired: "Noguris", relaxed: "Relaksēts", hot: "Man ir karsti", cold: "Man ir auksti", result: "Tavs ideālais dzēriens:", reset: "Mēģināt vēlreiz" },
+                about: { title: "Atmosfēra", text1: "Kad dzīve dod citronus, mēs pievienojam zemenes un aicinām tevi ciemos.", text2: "Tava ikdienas šokolādes mierinājuma deva ir gatava. Svaigi brauniji, taisni no krāsns - tiekamies drīz?", dogs: "Draudzīgi suņiem 🐶" },
+                footer: { hours_title: "Darba Laiks", mon_fri: "Pirmdiena - Piektdiena", sat: "Sestdiena", sun: "Svētdiena", closed: "SLĒGTS", address: "Adrese", follow_us: "Seko mums" },
+                actions: { call: "Zvanīt", map: "Karte" }
+            },
+            en: {
+                hero: { title: "LATTE HAPPENS", subtitle: "Not just coffee. It’s your little daily joy.", cta: "View Menu" },
+                menu: { title: "Menu", coffee: "Coffee", hot_drinks: "Hot Drinks", cold_drinks: "Lemonades", food: "Snacks", single: "Single", double: "Double" },
+                mood: { title: "Can't decide?", subtitle: "Let us pick the perfect drink for your mood", question: "How are you feeling today?", tired: "Tired", relaxed: "Relaxed", hot: "Feeling Hot", cold: "Feeling Cold", result: "Your perfect match:", reset: "Try Again" },
+                about: { title: "The Soul", text1: "When life gives you lemons, you add strawberries and head downtown.", text2: "Your daily dose of chocolatey comfort is ready. Fresh brownies, straight from the oven—see you soon?", dogs: "Dogs friendly place 🐶" },
+                footer: { hours_title: "Working Hours", mon_fri: "Mon - Fri", sat: "Saturday", sun: "Sunday", closed: "CLOSED", address: "Address", follow_us: "Follow Us" },
+                actions: { call: "Call", map: "Map" }
+            },
+            ru: {
+                hero: { title: "LATTE HAPPENS", subtitle: "Не просто кофе. Это ваша ежедневная радость.", cta: "Смотреть Меню" },
+                menu: { title: "Меню", coffee: "Кофе", hot_drinks: "Горячие Напитки", cold_drinks: "Лимонады", food: "Закуски", single: "Один", double: "Двойной" },
+                mood: { title: "Не можете выбрать?", subtitle: "Мы подберем идеальный напиток под ваше настроение", question: "Как вы себя чувствуете?", tired: "Устал", relaxed: "Расслаблен", hot: "Мне жарко", cold: "Мне холодно", result: "Ваш идеальный выбор:", reset: "Попробовать снова" },
+                about: { title: "Атмосфера", text1: "Когда жизнь дает лимоны, мы добавляем клубнику и ждем вас в центре.", text2: "Ваша ежедневная порция шоколадного уюта готова. Свежие брауни прямо из печи — до скорой встречи?", dogs: "Можно с собаками 🐶" },
+                footer: { hours_title: "Время Работы", mon_fri: "Пн - Пт", sat: "Суббота", sun: "Воскресенье", closed: "ЗАКРЫТО", address: "Адрес", follow_us: "Соцсети", actions: { call: "Позвонить", map: "Карта" } },
+                actions: { call: "Позвонить", map: "Карта" }
+            }
+        };
+
+        // --- APPLICATION LOGIC ---
+        const app = {
+            lang: 'lv',
+            currentCategory: 'coffee',
+
+            init() {
+                // Load stored language
+                const savedLang = localStorage.getItem('language');
+                if (savedLang && ['lv', 'en', 'ru'].includes(savedLang)) {
+                    this.lang = savedLang;
+                }
+
+                // Render
+                this.updateTranslations();
+                this.renderMenu();
+                lucide.createIcons();
+
+                // Navbar Scroll Effect
+                window.addEventListener('scroll', () => {
+                    const nav = document.getElementById('navbar');
+                    if (window.scrollY > 50) {
+                        nav.classList.add('bg-[#121212]/90', 'backdrop-blur-md', 'border-b', 'border-gray-800', 'py-3');
+                        nav.classList.remove('p-6');
+                    } else {
+                        nav.classList.remove('bg-[#121212]/90', 'backdrop-blur-md', 'border-b', 'border-gray-800', 'py-3');
+                        nav.classList.add('p-6');
+                    }
+                });
+            },
+
+            setLanguage(code) {
+                this.lang = code;
+                localStorage.setItem('language', code);
+                this.updateTranslations();
+                this.renderMenu(); // Re-render menu to translate category buttons
+            },
+
+            updateTranslations() {
+                // Update all elements with data-i18n attribute
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    const text = key.split('.').reduce((obj, i) => obj ? obj[i] : null, TRANSLATIONS[this.lang]);
+                    if (text) el.textContent = text;
+                });
+
+                // Update language switcher styles
+                ['lv', 'en', 'ru'].forEach(l => {
+                    const btn = document.getElementById(`btn-${l}`);
+                    if (this.lang === l) {
+                        btn.className = "uppercase px-2 py-1 transition-colors duration-300 text-white border-b-2 border-white";
+                    } else {
+                        btn.className = "uppercase px-2 py-1 transition-colors duration-300 text-gray-400 hover:text-white";
+                    }
+                });
+            },
+
+            // --- MENU LOGIC ---
+            renderMenu() {
+                const t = TRANSLATIONS[this.lang].menu;
+                const categories = [
+                    { id: 'coffee', label: t.coffee },
+                    { id: 'hot_drinks', label: t.hot_drinks },
+                    { id: 'cold_drinks', label: t.cold_drinks },
+                    { id: 'food', label: t.food },
+                ];
+
+                // Render Categories
+                const catContainer = document.getElementById('menu-categories');
+                catContainer.innerHTML = categories.map(cat => `
+                    <button onclick="app.setMenuCategory('${cat.id}')" 
+                        class="px-6 py-2 rounded-full text-sm font-medium tracking-wide transition-all duration-300 ${this.currentCategory === cat.id
+                        ? 'bg-white text-[#121212] shadow-lg scale-105'
+                        : 'bg-[#1E1E1E] text-gray-400 hover:text-white hover:bg-gray-800'
+                    }">
+                        ${cat.label}
+                    </button>
+                `).join('');
+
+                // Render Items
+                const itemsContainer = document.getElementById('menu-items');
+                const filteredItems = MENU_ITEMS.filter(item => item.category === this.currentCategory);
+
+                itemsContainer.innerHTML = filteredItems.map(item => `
+                    <div class="group flex justify-between items-baseline border-b border-gray-800 pb-4 transition-colors hover:border-gray-600">
+                        <div class="flex flex-col">
+                            <span class="font-sans font-medium text-lg text-white group-hover:text-[#E6E6E6] transition-colors">
+                                ${item.name}
+                            </span>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="font-mono text-gray-300 text-lg">€ ${item.price}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Show/Hide Coffee note
+                const coffeeNote = document.getElementById('coffee-note');
+                if (this.currentCategory === 'coffee') {
+                    coffeeNote.classList.remove('hidden');
+                } else {
+                    coffeeNote.classList.add('hidden');
+                }
+            },
+
+            setMenuCategory(id) {
+                this.currentCategory = id;
+                this.renderMenu();
+            },
+
+            // --- MOOD WIDGET LOGIC ---
+            setMood(mood) {
+                let recommendation = 'Flat White';
+                switch (mood) {
+                    case 'tired': recommendation = 'Double Espresso & Brownie'; break;
+                    case 'relaxed': recommendation = 'Latte & Croissant'; break;
+                    case 'hot': recommendation = 'Espresso Tonic'; break;
+                    case 'cold': recommendation = 'Chai Latte'; break;
+                }
+
+                document.getElementById('mood-result-text').textContent = recommendation;
+                document.getElementById('mood-question').classList.add('hidden');
+                document.getElementById('mood-result').classList.remove('hidden');
+            },
+
+            resetMood() {
+                document.getElementById('mood-question').classList.remove('hidden');
+                document.getElementById('mood-result').classList.add('hidden');
+            }
+        };
+
+        // Start App
+        document.addEventListener('DOMContentLoaded', () => app.init());
+    </script>
+</body>
+
+</html>
